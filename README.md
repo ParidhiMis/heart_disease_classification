@@ -5,15 +5,25 @@ This project predicts the risk of heart disease using a machine learning model a
 📊 Key Features Used (Inputs):
 
 Age
+
 Sex
+
 Chest Pain Type
+
 Resting Blood Pressure
+
 Cholesterol
+
 Fasting Blood Sugar
+
 Resting ECG results
+
 Max Heart Rate
+
 Exercise Induced Angina
+
 ST Depression, Slope, Vessels, Thal
+
 (Full list matches dataset columns in data/ folder)
 
 ⚙️ How It Works
@@ -29,9 +39,13 @@ Result: Model predicts heart disease risk with confidence level
 💻 Tech Stack
 
 [Dataset](https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data)
+
 Python, FastAPI – Machine Learning & Backend logic
+
 Logistic regression model(trained in Jupyter notebooks and later converted to .pkl)
+
 HTML / CSS / JavaScript – Frontend interface
+
 Jupyter Notebooks – Exploratory Data Analysis & Model training
 
 🚀 Live Demo
