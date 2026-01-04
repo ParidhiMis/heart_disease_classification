@@ -52,20 +52,10 @@ Jupyter Notebooks – Exploratory Data Analysis & Model training
 
 🔗 Add your deployed app link here once live
 
-📁 Project Structure
-heart_disease_prediction/
-│-- data/ # CSV datasets
-│-- main.py # FastAPI app
-│-- model/ # Logistic Regression code
-│-- notebooks/ # Jupyter notebooks
-│-- templates/ # HTML templates
-│-- static/ # CSS & JS files
-│-- requirements.txt # Python dependencies
-
 📝 Setup Instructions
 
 1. Clone the repository:
-   git clone https://github.com/yourusername/heart_disease_prediction.git
+   git clone https://github.com/ParidhiMis/heart_disease_classification.git
 
 2. Install dependencies:
    pip install -r requirements.txt
@@ -73,8 +63,7 @@ heart_disease_prediction/
 3. Run the app:
    python main.py
 
-4. Open in browser:
-   http://127.0.0.1:8000
+4. Open in browser
 
 💡 Purpose:
 
