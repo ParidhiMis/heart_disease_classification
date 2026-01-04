@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>❤️ Heart Disease Prediction ❤️</title>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+    <script defer src="/static/script.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        <span class="material-symbols-outlined heart-icon">monitor_heart</span>
+        Heart Disease Prediction
+      </h1>
+
+      <p class="disclaimer">
+        This tool provides a <strong>probability-based prediction</strong> using
+        an ML model. It is <strong>NOT a medical diagnosis</strong>. Consult a
+        doctor for real medical advice.
+      </p>
+
+      <div class="info-section">
+        <button class="info-toggle" onclick="toggleInfo()">
+          ℹ️ About This Model
+        </button>
+        <div id="info-content" class="info-content">
+          <h3>Model Accuracy</h3>
+          <p><strong>75%</strong> accuracy on the test dataset.</p>
+          <h3>How It Works</h3>
+          <p>
+            A custom logistic regression model analyzes 13 medical inputs to
+            calculate the probability of a person with heart disease.
+          </p>
+          <h3>Note</h3>
+          <p>This is for educational purposes only.</p>
+        </div>
+      </div>
+
+      {% if result %}
+      <div
+        class="result-box {% if 'No Heart' in result %}result-good{% else %}result-bad{% endif %}"
+      >
+        <p>{{ result }}</p>
+        <p style="font-size: 0.9rem; margin-top: 8px">
+          This prediction is based on your inputs. Please consult a doctor for
+          medical guidance.
+        </p>
+      </div>
+      {% endif %}
+
+      <form
+        id="heart-form"
+        action="/predict"
+        method="post"
+        onsubmit="showLoader()"
+      >
+        <section class="input-section">
+          <h2>General Information</h2>
+
+          <div class="input-group">
+            <label>Age</label>
+            <p class="explain">
+              Your age in years. Higher age slightly increases heart disease
+              risk.
+            </p>
+            <input
+              type="range"
+              min="1"
+              max="120"
+              value="40"
+              name="age"
+              id="ageSlider"
+              data-value-id="ageValue"
+            />
+            <span id="ageValue">40</span>
+          </div>
+
+          <div class="input-group">
+            <label>Gender</label>
+            <p class="explain">
+              Men generally have a higher risk of heart disease at younger ages.
+              In the dataset: 1 = Male, 0 = Female.
+            </p>
+            <select name="sex" required>
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="input-section">
+          <h2>Medical Measurements</h2>
+
+          <div class="input-group">
+            <label>Chest Pain Type</label>
+            <select name="cp" required>
+              <option value="0">Typical Angina</option>
+              <option value="1">Atypical Angina</option>
+              <option value="2">Non-Anginal Pain</option>
+              <option value="3">Asymptomatic</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Resting Blood Pressure</label>
+            <p class="explain">
+              Measured in mmHg while resting. Normal is around 120.
+            </p>
+            <input
+              type="range"
+              min="50"
+              max="250"
+              value="120"
+              name="trestbps"
+              id="bpSlider"
+              data-value-id="bpValue"
+            />
+            <span id="bpValue">120</span>
+          </div>
+
+          <div class="input-group">
+            <label>Cholesterol Level</label>
+            <p class="explain">
+              Your total cholesterol level. Above 200 is considered high.
+            </p>
+            <input
+              type="range"
+              min="50"
+              max="700"
+              value="200"
+              name="chol"
+              id="cholSlider"
+              data-value-id="cholValue"
+            />
+            <span id="cholValue">200</span>
+          </div>
+
+          <div class="input-group">
+            <label>Fasting Blood Sugar</label>
+            <select name="fbs" required>
+              <option value="0">≤ 120 mg/dl</option>
+              <option value="1">> 120 mg/dl</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Resting ECG</label>
+            <p class="explain">
+              Resting ECG (electrocardiogram) checks your heart’s electrical
+              activity while resting.
+              <br />0 = Normal heart rhythm <br />1 = Possible ST-T abnormality
+              (may indicate reduced blood flow to the heart) <br />2 = Signs of
+              left ventricular hypertrophy (the heart muscle is enlarged)
+            </p>
+            <select name="restecg" required>
+              <option value="0">Normal</option>
+              <option value="1">ST-T Abnormality</option>
+              <option value="2">Left Ventricular Hypertrophy</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="input-section">
+          <h2>Other Indicators</h2>
+
+          <div class="input-group">
+            <label>Max Heart Rate</label>
+            <p class="explain">
+              Maximum heart rate during exercise. Typical range: 120–200 bpm.
+            </p>
+            <input
+              type="range"
+              min="50"
+              max="250"
+              value="150"
+              name="thalach"
+              id="hrSlider"
+              data-value-id="hrValue"
+            />
+            <span id="hrValue">150</span>
+          </div>
+
+          <div class="input-group">
+            <label>Exercise Induced Angina</label>
+            <p class="explain">
+              Chest pain triggered by physical activity. 1 = Yes (pain occurs
+              during exercise) 0 = No (no pain during exercise)
+            </p>
+            <select name="exang" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Oldpeak</label>
+            <p class="explain">
+              Measures how much your ST segment drops after exercise compared to
+              rest. Higher values indicate stronger signs of heart stress.
+              (Typical range is 0.0 to 5.0)
+            </p>
+            <input
+              type="range"
+              min="0"
+              max="10"
+              step="0.1"
+              value="0"
+              name="oldpeak"
+              id="oldpeakSlider"
+              data-value-id="oldpeakValue"
+            />
+            <span id="oldpeakValue">0</span>
+          </div>
+
+          <div class="input-group">
+            <label>Slope</label>
+            <p class="explain">
+              Describes the shape of your ECG line during peak exercise:
+              <br />0 = Downsloping (highest risk) <br />1 = Flat <br />2 =
+              Upsloping (lowest risk)
+            </p>
+            <select name="slope" required>
+              <option value="0">Upsloping</option>
+              <option value="1">Flat</option>
+              <option value="2">Downsloping</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Major Vessels (ca)</label>
+            <p class="explain">
+              Number of major blood vessels (0–3) that are visible in a special
+              heart scan. More visible vessels (0–1) usually means good blood
+              flow. Higher values (2–3) can indicate blockages.
+            </p>
+            <input
+              type="range"
+              min="0"
+              max="4"
+              value="0"
+              name="ca"
+              id="caSlider"
+              data-value-id="caValue"
+            />
+            <span id="caValue">0</span>
+          </div>
+
+          <div class="input-group">
+            <label>Thal</label>
+            <p class="explain">
+              Thal test shows how your heart handles stress:
+              <br />1 = Fixed Defect (old damage) <br />2 = Normal <br />3 =
+              Reversible Defect (blood flow decreases during exercise)
+            </p>
+            <select name="thal" required>
+              <option value="0">Normal</option>
+              <option value="1">Fixed Defect</option>
+              <option value="2">Reversible Defect</option>
+              <option value="3">Unknown</option>
+            </select>
+          </div>
+        </section>
+
+        <button type="submit" class="predict-btn">Predict</button>
+      </form>
+
+      <div id="loader" class="loader">Predicting...</div>
+
+      <footer class="footer">
+        <p>
+          Made with ❤️ by Paridhi Mishra | Logistic Regression Model | Accuracy
+          ~75%
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
