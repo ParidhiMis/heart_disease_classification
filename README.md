@@ -50,7 +50,7 @@ Jupyter Notebooks – Exploratory Data Analysis & Model training
 
 🚀 Live Demo
 
-🔗 Add your deployed app link here once live
+🔗 [Live Demo](https://heart-disease-classification-l2ko.onrender.com/)
 
 📝 Setup Instructions
 
